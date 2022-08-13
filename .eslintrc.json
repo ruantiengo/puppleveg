@@ -1,7 +1,8 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "jest": true
     },
     "extends": [
         "prettier-standard",
@@ -22,6 +23,11 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "react/react-in-jsx-scope": "off"
-    }
+        "react/react-in-jsx-scope": "off",
+        "no-redeclare": "off",
+        "space-before-function-paren": 0
+    },
+    "ignorePatterns": [
+        "node_modules/"
+    ]
 }
