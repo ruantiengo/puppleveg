@@ -4,15 +4,15 @@ import {
   HttpResponse,
   HttpStatusCode
 } from '../../../src/data/protocols/http-client'
-// import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker'
 
-// export const mockHttpRequest = (): HttpRequest => ({
-//   url: faker.internet.url(),
+export const mockHttpRequest = (): HttpRequest => ({
+  url: faker.internet.url(),
 
-//   method: faker.helpers.arrayElement(['get', 'post', 'put', 'delete']),
-//   body: faker.helpers.objectValue({ test: faker.internet.emoji }),
-//   headers: faker.helpers.objectValue({ test: faker.internet.emoji })
-// })
+  method: faker.helpers.arrayElement(['get', 'post', 'put', 'delete']),
+  body: faker.helpers.objectValue({ test: faker.internet.emoji }),
+  headers: faker.helpers.objectValue({ test: faker.internet.emoji })
+})
 
 export class HttpClientSpy<R = any> implements HttpClient<R> {
   url?: string

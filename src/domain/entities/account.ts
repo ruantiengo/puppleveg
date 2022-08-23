@@ -1,4 +1,8 @@
 export type AccountModel = {
   accessToken: string
-  refreshToken: string
+  refreshToken: {
+    id: string
+    userId: string
+    expiresIn: number
+  }
 }

@@ -23,7 +23,6 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "react/react-in-jsx-scope": "off",
         "no-redeclare": "off",
         "space-before-function-paren": 0
     },
