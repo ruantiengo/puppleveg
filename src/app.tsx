@@ -16,9 +16,8 @@ import Animals from './presentation/pages/Animal'
 import Services from './presentation/pages/Service'
 import OrderPage from './presentation/pages/Orders'
 import Home from './presentation/pages/Home'
-const queryClient = new QueryClient()
-
 const App = () => {
+  const queryClient = new QueryClient()
   return (
     <>
       <QueryClientProvider client={queryClient}>

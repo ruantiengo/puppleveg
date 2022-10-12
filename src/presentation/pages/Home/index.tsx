@@ -5,7 +5,7 @@ import { styled } from '../../../../stitches.config'
 import Header from '../../components/Header'
 import Navbar from '../../components/Navbar'
 
-function App() {
+function Home() {
   return (
     <Container>
       <Navbar urlActive="/home" />
@@ -31,4 +31,4 @@ const Content = styled('div', {
   alignItems: 'center'
 })
 
-export default App
+export default Home
