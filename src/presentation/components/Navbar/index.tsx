@@ -5,10 +5,10 @@ import {
   House,
   IdentificationBadge,
   ListBullets,
-  GearSix,
   User,
   SignOut,
-  PawPrint
+  PawPrint,
+  ClipboardText
 } from 'phosphor-react'
 
 type NavbarProps = {
@@ -48,18 +48,19 @@ const Navbar = ({ urlActive }: NavbarProps) => {
           urlActive={urlActive}
         />
         <Item
-          url="/servicos"
+          url="/services"
           title="Serviços"
           ItemIcon={<ListBullets size={24} weight="fill" />}
           urlActive={urlActive}
         />
-        <BreakLine />
         <Item
-          url="/settings"
-          title="Configurações"
-          ItemIcon={<GearSix size={24} weight="fill" />}
+          url="/orders"
+          title="Pedidos"
+          ItemIcon={<ClipboardText size={24} weight="fill" />}
           urlActive={urlActive}
         />
+        <BreakLine />
+
         <Item
           url="/"
           title="Sair"

@@ -8,16 +8,18 @@ import {
   ChevronUpIcon
 } from '@radix-ui/react-icons'
 import * as SelectPrimitive from '@radix-ui/react-select'
+import { Animal } from '../../../store/animal'
 
 const Box = styled('div', { width: '70%' })
 
 type Props = {
   title: string
-  array: Array<any>
+  array: Array<Animal>
   setValue: React.Dispatch<React.SetStateAction<any>>
-  chave: string
 }
-export const SelectInput = ({ title, array, setValue, chave }: Props) => {
+export const SelectInputAnimal = ({ title, array, setValue }: Props) => {
+  console.log(array)
+
   return (
     <Box>
       <Select
@@ -37,8 +39,8 @@ export const SelectInput = ({ title, array, setValue, chave }: Props) => {
           <SelectViewport>
             <SelectGroup>
               {array.map((item, i) => (
-                <SelectItem value={String(item[`${chave}`])} key={i}>
-                  <SelectItemText>{item.name}</SelectItemText>
+                <SelectItem value={String(item.id)} key={i}>
+                  <SelectItemText>{item.animalname}</SelectItemText>
                   <SelectItemIndicator>
                     <CheckIcon />
                   </SelectItemIndicator>
@@ -182,4 +184,4 @@ export const SelectSeparator = StyledSeparator
 export const SelectScrollUpButton = StyledScrollUpButton
 export const SelectScrollDownButton = StyledScrollDownButton
 
-export default SelectInput
+export default SelectInputAnimal

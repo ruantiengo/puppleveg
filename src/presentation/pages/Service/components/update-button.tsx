@@ -5,8 +5,9 @@ import { Cross2Icon } from '@radix-ui/react-icons'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import Button from '../../../components/button'
 import { notify } from '../../../helpers/toatisfy'
-import { Animal } from '../../../store/animal'
-import { updateAnimal } from '../../../store/animal/update'
+
+import { Service } from '../../../store/service'
+import { updateService } from '../../../store/service/update'
 
 const overlayShow = keyframes({
   '0%': { opacity: 0 },
@@ -168,10 +169,10 @@ const Input = styled('input', {
 interface Props {
   type: 'new' | 'delete' | 'update'
   id: number
-  setAnimals: React.Dispatch<React.SetStateAction<Animal[]>>
-  animal: Animal
+  setServices: React.Dispatch<React.SetStateAction<Service[]>>
+  service: Service
 }
-const UpdateButton = ({ type, id, setAnimals, animal }: Props) => {
+const UpdateButton = ({ type, id, setServices, service }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -186,9 +187,9 @@ const UpdateButton = ({ type, id, setAnimals, animal }: Props) => {
           <Label htmlFor="name">Nome</Label>
           <Input
             id="name"
-            defaultValue={animal.name}
+            defaultValue={service.name}
             onChange={(e) => {
-              animal.name = e.target.value
+              service.name = e.target.value
             }}
           />
         </Fieldset>
@@ -196,32 +197,19 @@ const UpdateButton = ({ type, id, setAnimals, animal }: Props) => {
           <Label htmlFor="species">Especie</Label>
           <Input
             id="species"
-            defaultValue={animal.species}
+            defaultValue={service.whichspecies}
             onChange={(e) => {}}
           />
         </Fieldset>
         <Fieldset>
-          <Label htmlFor="cpf">Raça</Label>
+          <Label htmlFor="cpf">Valor</Label>
           <Input
             id="breed"
-            defaultValue={animal.breed}
+            type={'number'}
+            defaultValue={service.value}
             onChange={(e) => {
-              animal.breed = e.target.value
+              service.value = Number(e.target.value)
             }}
-          />
-        </Fieldset>
-
-        <Fieldset>
-          <Label htmlFor="address">CPF Dono</Label>
-          <Input
-            disabled={true}
-            id="address"
-            type="text"
-            defaultValue={animal.fk_costumer_cpf}
-            onChange={(e) => {
-              animal.fk_costumer_cpf = e.target.value
-            }}
-            style={{ opacity: 0.6 }}
           />
         </Fieldset>
         <Flex css={{ marginTop: 25, justifyContent: 'flex-end' }}>
@@ -230,9 +218,9 @@ const UpdateButton = ({ type, id, setAnimals, animal }: Props) => {
               variant="green"
               onClick={async () => {
                 try {
-                  await updateAnimal(id, animal)
-                  setAnimals((old) => old.filter((el) => el.id !== id))
-                  setAnimals((old) => [...old, animal])
+                  await updateService(id, service)
+                  setServices((old) => old.filter((el) => el.id !== id))
+                  setServices((old) => [...old, service])
                 } catch (error) {
                   notify(error.message)
                 }

@@ -256,7 +256,6 @@ const AddButton = ({ type, setEmployees }: Props) => {
                       notify('CPF Invalido')
                     }
                     const res = await addEmployee(employee)
-                    console.log(res)
 
                     if (res.status === 200) {
                       setEmployees((old) => [...old, employee])
@@ -264,7 +263,6 @@ const AddButton = ({ type, setEmployees }: Props) => {
                   }
                 } catch (error) {
                   notify('Um funcionario com esse CPF já existe')
-                  console.log(error)
                 }
               }}>
               Salvar

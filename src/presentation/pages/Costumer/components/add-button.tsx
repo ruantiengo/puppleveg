@@ -246,7 +246,6 @@ const AddButton = ({ type, setCostumer }: Props) => {
                       notify('CPF Invalido')
                     }
                     const res = await addCostumer(costumer)
-                    console.log(res)
 
                     if (res.status === 200) {
                       setCostumer((old) => [...old, costumer])
@@ -254,7 +253,6 @@ const AddButton = ({ type, setCostumer }: Props) => {
                   }
                 } catch (error) {
                   notify('Um cliente com esse CPF já existe')
-                  console.log(error)
                 }
               }}>
               Salvar edições

@@ -3,8 +3,8 @@ import { styled, keyframes } from '@stitches/react'
 import { violet, blackA, red, mauve } from '@radix-ui/colors'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import Button from '../../../components/button'
-import { deleteEmployee } from '../../../store/employess/delete'
-import { Employee } from '../../../store/employess'
+import { Service } from '../../../store/service'
+import { deleteService } from '../../../store/service/delete'
 
 const overlayShow = keyframes({
   '0%': { opacity: 0 },
@@ -121,10 +121,10 @@ const ButtonB = styled('button', {
 })
 interface Props {
   type: 'new' | 'delete' | 'update'
-  cpf: string
-  setEmployees: React.Dispatch<React.SetStateAction<Employee[]>>
+  id: number
+  setServices: React.Dispatch<React.SetStateAction<Service[]>>
 }
-const DeleteIcon = ({ type, cpf, setEmployees }: Props) => (
+const DeleteIcon = ({ type, id, setServices }: Props) => (
   <AlertDialog>
     <AlertDialogTrigger asChild>
       <ButtonB>
@@ -147,10 +147,10 @@ const DeleteIcon = ({ type, cpf, setEmployees }: Props) => (
           <ButtonB
             variant="red"
             onClick={async () => {
-              setEmployees((old) => {
-                return old.filter((elements) => elements.cpf !== cpf)
+              setServices((old) => {
+                return old.filter((elements) => elements.id !== id)
               })
-              await deleteEmployee(cpf)
+              await deleteService(id)
             }}>
             Sim, deletar
           </ButtonB>

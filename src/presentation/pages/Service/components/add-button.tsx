@@ -1,16 +1,15 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { styled, keyframes } from '@stitches/react'
 import { violet, blackA, mauve, green } from '@radix-ui/colors'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import Button from '../../../components/button'
 import { notify } from '../../../helpers/toatisfy'
-import { Animal } from '../../../store/animal'
-import { addAnimal } from '../../../store/animal/add'
 import SelectDemo from '../../../components/select'
-import useCostumer, { Costumer } from '../../../store/costumers'
-import { useNavigate } from 'react-router-dom'
+
+import { Service } from '../../../store/service'
+import { addService } from '../../../store/service/add'
 
 function Content({ children, ...props }: any) {
   return (
@@ -44,13 +43,11 @@ export const DialogDescription = StyledDescription
 export const DialogClose = DialogPrimitive.Close
 interface Props {
   type: 'new' | 'delete' | 'update'
-  setAnimals: React.Dispatch<React.SetStateAction<Animal[]>>
+  setServices: React.Dispatch<React.SetStateAction<Service[]>>
 }
-const AddButton = ({ type, setAnimals: setCostumer }: Props) => {
-  const [costumers, setCostumers] = useState<Costumer[]>()
-  const { mutate } = useCostumer()
+const AddButton = ({ type, setServices: setCostumer }: Props) => {
   const [name, setName] = useState('')
-  const [fk_costumer_cpf, setCostumerCpf] = useState('')
+
   const speciesList = [
     {
       name: 'Cachorro',
@@ -69,24 +66,11 @@ const AddButton = ({ type, setAnimals: setCostumer }: Props) => {
       value: 'passaro'
     }
   ]
-  const [species, setSpecies] = useState<
+  const [whichspecies, setWhichSpecies] = useState<
     'cachorro' | 'gato' | 'porco' | 'passaro'
   >()
-  const [breed, setBreed] = useState('')
-  const navigator = useNavigate()
-  useEffect(() => {
-    mutate({} as unknown as void, {
-      onSuccess: (res) => {
-        if (res.statusCode === 403) {
-          localStorage.removeItem('accessToken')
-          return navigator('/')
-        } else {
-          return setCostumers(res.body)
-        }
-      },
-      onError: () => {}
-    })
-  }, [])
+  const [value, setValue] = useState(0)
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -95,25 +79,28 @@ const AddButton = ({ type, setAnimals: setCostumer }: Props) => {
         </ContentButton>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>Cadastrar novo animal</DialogTitle>
+        <DialogTitle>Cadastrar novo serviço</DialogTitle>
         <DialogDescription>Adicione desejados</DialogDescription>
         <Fieldset>
           <Label htmlFor="name">Nome</Label>
           <Input
             id="name"
-            placeholder={'Thor'}
+            placeholder={'Tosa Gato - P'}
             onChange={(e) => {
               setName(e.target.value)
             }}
           />
         </Fieldset>
+
         <Fieldset>
-          <Label htmlFor="cpf">Dono</Label>
-          <SelectDemo
-            array={costumers}
-            setValue={setCostumerCpf}
-            title={'Selecione o dono do animal'}
-            chave={'cpf'}
+          <Label htmlFor="value">Valor</Label>
+          <Input
+            id="value"
+            type={'number'}
+            placeholder={'1500'}
+            onChange={(e) => {
+              setValue(Number(e.target.value))
+            }}
           />
         </Fieldset>
 
@@ -121,20 +108,9 @@ const AddButton = ({ type, setAnimals: setCostumer }: Props) => {
           <Label htmlFor="species">Especie</Label>
           <SelectDemo
             array={speciesList}
-            setValue={setSpecies}
+            setValue={setWhichSpecies}
             title={'Especies'}
             chave={'value'}
-          />
-        </Fieldset>
-
-        <Fieldset>
-          <Label htmlFor="phone">Raça</Label>
-          <Input
-            id="phone"
-            placeholder={'Dalmata'}
-            onChange={(e) => {
-              setBreed(e.target.value)
-            }}
           />
         </Fieldset>
 
@@ -144,23 +120,18 @@ const AddButton = ({ type, setAnimals: setCostumer }: Props) => {
               variant="green"
               onClick={async () => {
                 try {
-                  const animal: Animal = {
-                    fk_costumer_cpf,
+                  const service: Service = {
                     name,
-                    breed,
-                    species,
-                    owner: costumers.find(
-                      (costumer) => costumer.cpf === fk_costumer_cpf
-                    ).name
+                    value,
+                    whichspecies
                   }
-                  if (!fk_costumer_cpf || !name || !species || !breed) {
+                  if (!name || !value || !whichspecies) {
                     return notify('Informações invalidas')
                   } else {
-                    const res = await addAnimal(animal)
-                    console.log(res)
+                    const res = await addService(service)
 
                     if (res.status === 200) {
-                      setCostumer((old) => [...old, animal])
+                      setCostumer((old) => [...old, service])
                     }
                   }
                 } catch (error) {

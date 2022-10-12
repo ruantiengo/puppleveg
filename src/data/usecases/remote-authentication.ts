@@ -15,7 +15,6 @@ export class RemoteAuthentication implements Authentication {
   ) {
     this.httpClient = httpClient
     this.url = baseUrl + url
-    console.log(url)
   }
 
   async auth(accountParams: AuthenticationParams): Promise<AccountModel> {
