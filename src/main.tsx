@@ -10,11 +10,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import RequireAuth from './presentation/store/auth/require-auth'
 import { ToastContainer } from 'react-toastify'
 import Employess from './presentation/pages/Employees'
-import Servicos from './presentation/pages/Servicos'
 import Settings from './presentation/pages/Settings'
 import SignUp from './presentation/pages/Signup'
 import Costumers from './presentation/pages/Costumer'
 import Animals from './presentation/pages/Animal'
+import Services from './presentation/pages/Service'
+import OrderPage from './presentation/pages/Orders'
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -30,7 +31,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               <Route path="/employees" element={<Employess />} />
               <Route path="/costumers" element={<Costumers />} />
               <Route path="/animals" element={<Animals />} />
-              <Route path="/servicos" element={<Servicos />} />
+              <Route path="/orders" element={<OrderPage />} />
+              <Route path="/services" element={<Services />} />
               <Route path="/settings" element={<Settings />} />
             </Route>
           </Routes>

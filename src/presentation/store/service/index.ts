@@ -2,22 +2,19 @@ import { useMutation } from '@tanstack/react-query'
 
 import { AxiosHttpClient } from '../../../infra/http/axios/axios-http-client'
 import baseUrl from '../../helpers/baseUrl'
-export type Animal = {
+export type Service = {
   name: string
-  fk_costumer_cpf: string
-  species: 'cachorro' | 'gato' | 'passaro' | 'porco'
-  breed: string
+  whichspecies: 'cachorro' | 'gato' | 'passaro' | 'porco'
+  value: number
   id?: number
-  owner?: string
-  animalname?: string
 }
-const useAnimal = () => {
+const useService = () => {
   const req = async () => {
     const httpClient = new AxiosHttpClient()
     const accessToken = localStorage.getItem('accessToken')
     return await httpClient.request({
       method: 'get',
-      url: `${baseUrl}/animals`,
+      url: `${baseUrl}/services`,
       headers: {
         authorization: accessToken
       }
@@ -25,4 +22,4 @@ const useAnimal = () => {
   }
   return useMutation(req)
 }
-export default useAnimal
+export default useService

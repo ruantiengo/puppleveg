@@ -189,7 +189,6 @@ const UpdateButton = ({ type, cpf, setEmployees, employee }: Props) => {
             defaultValue={employee.name}
             onChange={(e) => {
               employee.name = e.target.value
-              console.log(e.target.value)
             }}
           />
         </Fieldset>
@@ -231,7 +230,6 @@ const UpdateButton = ({ type, cpf, setEmployees, employee }: Props) => {
             defaultValue={employee.salary}
             onChange={(e) => {
               employee.salary = Number(e.target.value)
-              console.log(e.target.value)
             }}
           />
         </Fieldset>

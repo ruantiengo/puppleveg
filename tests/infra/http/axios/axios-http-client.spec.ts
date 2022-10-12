@@ -53,7 +53,6 @@ describe('AxiosHttpClient', () => {
     })
 
     const promise = sut.request(mockHttpRequest())
-    console.log(promise)
 
     expect(promise).toEqual(mockedAxios.request.mock.results[0].value)
   })

@@ -8,12 +8,12 @@ import Navbar from '../../components/Navbar'
 import UpdateButton from './components/update-button'
 import AddButton from './components/add-button'
 import DeleteIcon from './components/delete-button'
-import useAnimal, { Animal } from '../../store/animal'
-import { formatCPF } from '../../helpers/format-cpf'
+import useService, { Service } from '../../store/service'
+import { convertToBrl } from '../../helpers/convertToBrl'
 
-function Animals() {
-  const [animals, setAnimals] = useState([] as Animal[])
-  const { mutate } = useAnimal()
+function Services() {
+  const [services, setServices] = useState([] as Service[])
+  const { mutate } = useService()
   const navigator = useNavigate()
   useEffect(() => {
     mutate({} as unknown as void, {
@@ -22,7 +22,7 @@ function Animals() {
           localStorage.removeItem('accessToken')
           return navigator('/')
         } else {
-          return setAnimals(res.body)
+          return setServices(res.body)
         }
       },
       onError: () => {}
@@ -30,35 +30,26 @@ function Animals() {
   }, [])
 
   const rows = useMemo(() => {
-    return animals.map((animal) => {
-      const species =
-        animal.species[0].toUpperCase() +
-        animal.species.substring(1).toLowerCase()
-
-      const breed =
-        animal.breed[0].toUpperCase() + animal.breed.substring(1).toLowerCase()
+    return services.map((service) => {
       const row = {
-        name: animal.name,
-        species,
-        breed,
-        owner: animal.owner,
-        fk_costumer_cpf: formatCPF(animal.fk_costumer_cpf),
-
+        name: service.name,
+        value: convertToBrl(service.value),
+        whichspecies: service.whichspecies,
         edit: (
           <UpdateButton
             type="update"
-            id={animal.id}
-            setAnimals={setAnimals}
-            animal={animal}
+            id={service.id}
+            setServices={setServices}
+            service={service}
           />
         ),
         delete: (
-          <DeleteIcon type="delete" id={animal.id} setAnimals={setAnimals} />
+          <DeleteIcon type="delete" id={service.id} setServices={setServices} />
         )
       }
       return row
     })
-  }, [animals])
+  }, [services])
   const columns = React.useMemo(
     () => [
       {
@@ -66,20 +57,12 @@ function Animals() {
         accessor: 'name' // accessor is the "key" in the data
       },
       {
+        Header: 'Valor',
+        accessor: 'value'
+      },
+      {
         Header: 'Especie',
-        accessor: 'species'
-      },
-      {
-        Header: 'Raça',
-        accessor: 'breed'
-      },
-      {
-        Header: 'Dono',
-        accessor: 'owner'
-      },
-      {
-        Header: 'CPF Dono',
-        accessor: 'fk_costumer_cpf'
+        accessor: 'whichspecies'
       },
       {
         Header: 'Editar',
@@ -94,12 +77,12 @@ function Animals() {
   )
   return (
     <Container>
-      <Navbar urlActive="/animals" />
+      <Navbar urlActive="/services" />
       <Content>
-        <Header title={'Animais'} />
+        <Header title={'Serviços'} />
         <FuncList>
           <Menu>
-            <AddButton type="new" setAnimals={setAnimals} />
+            <AddButton type="new" setServices={setServices} />
           </Menu>
           <Suspense fallback={<Spinner />}>
             <List columns={columns} data={rows} />
@@ -140,4 +123,4 @@ const Menu = styled('div', {
   gap: '2rem',
   justifyContent: 'start'
 })
-export default Animals
+export default Services

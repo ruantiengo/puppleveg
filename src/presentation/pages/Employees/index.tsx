@@ -10,6 +10,7 @@ import useEmployes, { Employee } from '../../store/employess'
 import UpdateButton from './components/update-button'
 import AddButton from './components/add-button'
 import { formatCPF } from '../../helpers/format-cpf'
+import { convertToBrl } from '../../helpers/convertToBrl'
 
 function Employess() {
   const [employees, setEmployees] = useState([] as Employee[])
@@ -25,9 +26,7 @@ function Employess() {
           return setEmployees(res.body)
         }
       },
-      onError: () => {
-        console.log('123')
-      }
+      onError: () => {}
     })
   }, [])
 
@@ -37,7 +36,7 @@ function Employess() {
         name: employe.name,
         profession: employe.profession,
         cpf: formatCPF(employe.cpf),
-        salary: employe.salary,
+        salary: convertToBrl(employe.salary),
         edit: (
           <UpdateButton
             type="update"

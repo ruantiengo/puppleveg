@@ -22,14 +22,10 @@ function Costumers() {
           localStorage.removeItem('accessToken')
           return navigator('/')
         } else {
-          console.log(res.body)
-
           return setCostumers(res.body)
         }
       },
-      onError: () => {
-        console.log('123')
-      }
+      onError: () => {}
     })
   }, [])
 
