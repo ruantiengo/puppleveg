@@ -22,29 +22,22 @@ const useLogin = () => {
       progress: undefined
     })
   const auth = async (params: Authentication.Params) => {
-    try {
-      const httpClient = new AxiosHttpClient()
-      const authentication = new RemoteAuthentication(
-        'http://localhost:5050/api/login',
-        httpClient
-      )
-      const account = await authentication.auth(params)
+    const httpClient = new AxiosHttpClient()
+    const authentication = new RemoteAuthentication('/login', httpClient)
+    const account = await authentication.auth(params)
 
-      return account
-    } catch (error) {
-      notify(error.message)
-      return error
-    }
+    return account
   }
   return useMutation(auth, {
     onSuccess: (res) => {
-      console.log('entra aqui')
-
       dispatch(setCredentials(res))
 
       navigate('/home')
     },
-    onError: () => {}
+    onError: (error) => {
+      const { message } = error as { message: string }
+      notify(message)
+    }
   })
 }
 export default useLogin

@@ -45,6 +45,7 @@ const globalStyles = globalCss({
     padding: '0',
     background: '$background',
     fontFamily: 'Montserrat',
+    overflow: 'hidden'
   },
   body: {
     boxSizing: 'border-box'

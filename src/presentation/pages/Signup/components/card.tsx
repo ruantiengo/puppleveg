@@ -2,31 +2,86 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { styled } from '../../../../../stitches.config'
-import useLogin from '../../../store/auth/auth-api'
+import useSignUp from '../../../store/signup/signup-api'
 
 import { Logo } from './logo'
 import { Spinner } from './spinner'
 
 export const Card: React.FC = () => {
-  const { mutate, isLoading } = useLogin()
+  const { mutate, isLoading } = useSignUp()
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors }
   } = useForm()
-  const onSubmit = (data) => {
-    console.log(data)
 
-    mutate(data)
+  const onSubmit = async (data: {
+    cpf: string
+    email: string
+    name: string
+    password: string
+  }) => {
+    data.cpf = data.cpf.replace(/\D/g, '')
+    mutate(data, {
+      onError: (error) => {
+        const { message } = error as { message: string }
+        if (message === 'Email já cadastrado.') {
+          setError('email', {
+            message: 'Email já está em uso.',
+            type: 'validate'
+          })
+        }
+        if (message === 'Cpf já cadastrado.') {
+          setError('cpf', { message: 'Cpf já está em uso.', type: 'validate' })
+        }
+        if (message === 'As senhas não são iguais.') {
+          setError('passwordConfirmation', {
+            message: 'As senhas não são iguais.',
+            type: 'validate'
+          })
+        }
+      }
+    })
   }
 
   return (
     <Container>
       <Logo />
       <Content>
-        <Title>Bem vindo ao PuppleVeg! 👋🏻</Title>
-        <SubTitle>Porfavor, digite o seu login e sua senha:</SubTitle>
+        <Title>Cadastre-se no PuppleVeg! 👋🏻</Title>
+        <SubTitle>Porfavor, digite as informações a seguir:</SubTitle>
         <FormLogin onSubmit={handleSubmit(onSubmit)}>
+          <WarnText>{errors.name?.message as String}</WarnText>
+          <Input
+            style={
+              errors.name
+                ? {
+                    borderTop: '4px solid red'
+                  }
+                : {}
+            }
+            key="name"
+            placeholder="nome"
+            {...register('name', {
+              required: 'Digite um nome valido.'
+            })}
+          />
+          <WarnText>{errors.cpf?.message as String}</WarnText>
+          <Input
+            style={
+              errors.cpf
+                ? {
+                    borderTop: '4px solid red'
+                  }
+                : {}
+            }
+            key="cpf"
+            placeholder="cpf"
+            {...register('cpf', {
+              required: 'Digite um cpf valido.'
+            })}
+          />
           <WarnText>{errors.email?.message as String}</WarnText>
           <Input
             style={
@@ -39,7 +94,7 @@ export const Card: React.FC = () => {
             key="email"
             placeholder="email"
             {...register('email', {
-              required: 'Digite um email valido,'
+              required: 'Digite um email valido.'
             })}
           />
           <WarnText>{errors.password?.message as String}</WarnText>
@@ -62,9 +117,30 @@ export const Card: React.FC = () => {
             })}
             placeholder="senha"
           />
+          <WarnText>{errors.passwordConfirmation?.message as String}</WarnText>
+          <Input
+            style={
+              errors.passwordConfirmation
+                ? {
+                    borderTop: '5px solid red'
+                  }
+                : {}
+            }
+            key="passwordConfirmation"
+            type="password"
+            {...register('passwordConfirmation', {
+              required: 'Digite uma confirmação de senha valida.',
+
+              minLength: {
+                message: 'A senha deve ter mais que 8 caracteres',
+                value: 8
+              }
+            })}
+            placeholder="Confirmar senha"
+          />
 
           <SpanForgotPassword>
-            <Link to={''}>Esqueceu a sua senha?</Link>
+            <Link to={'/'}>Voltar a tela de login</Link>
           </SpanForgotPassword>
 
           <Button disabled={isLoading}>
@@ -78,7 +154,7 @@ export const Card: React.FC = () => {
 
 const Container = styled('div', {
   boxSizing: 'border-box',
-  height: '493px',
+  height: '763px',
   width: '450px',
   background: 'White',
   boxShadow: '0 2px 10px 1px rgba(58, 53, 65, 0.3)',

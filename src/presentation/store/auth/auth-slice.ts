@@ -1,24 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit'
 type AuthType = {
   accessToken: string
-  refreshToken: {
-    id: string
-    userId: string
-    expiresIn: number
-  }
+  name: string
 }
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     accessToken: '',
-    refreshToken: {}
+    name: ''
   } as AuthType,
   reducers: {
     setCredentials: (state, action) => {
-      const { accessToken, refreshToken } = action.payload as AuthType
-      localStorage.setItem('accessToken', accessToken)
-      localStorage.setItem('refreshToken', refreshToken.id)
+      const { accessToken, name } = action.payload as AuthType
+      if (accessToken) {
+        localStorage.setItem('accessToken', accessToken)
+        localStorage.setItem('username', name)
+      }
     }
   }
 })
