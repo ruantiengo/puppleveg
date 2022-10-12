@@ -6,9 +6,9 @@ export type Order = {
   fk_service_id: number
   id?: number
   fk_animal_id: number
-  data: string
+  data?: string
   status: string
-  value: number
+  value?: number
   nameservice?: string
   nameanimal?: string
 }

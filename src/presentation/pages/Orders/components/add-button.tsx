@@ -117,7 +117,6 @@ const AddButton = ({ type, setOrders: setCostumer }: Props) => {
                 try {
                   setStatus('Pendente')
                   const order: Order = {
-                    date: new Date(),
                     fk_animal_id,
                     fk_service_id,
                     status
