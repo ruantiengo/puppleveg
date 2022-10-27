@@ -1,3 +1,3 @@
-const baseUrl = 'https://puppleveg-back-production.up.railway.app/api'
+const baseUrl = 'http://localhost:5050/api'
 
 export default baseUrl
